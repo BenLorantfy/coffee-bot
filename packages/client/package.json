@@ -1,0 +1,14 @@
+{
+  "name": "coffeebot-client",
+  "version": "1.0.0",
+  "description": "The coffee bot client",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "author": "Ben Lorantfy",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "johnny-five": "^0.14.1"
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "name": "coffeebot-fulfillment-server",
+  "version": "1.0.0",
+  "description": "This is the fullfillment server that google will send requests to",
+  "main": "index.js",
+  "scripts": {
+    "start": "node ./index.js"
+  },
+  "author": "Ben Lorantfy",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.16.3"
+  }
+}

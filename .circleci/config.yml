@@ -1,0 +1,55 @@
+# Javascript Node CircleCI 2.0 configuration file
+#
+# Resources:
+# https://circleci.com/docs/2.0/language-javascript/
+# https://medium.com/@lewdaly/circleci-docker-digital-ocean-409628f5a428
+# https://www.joedog.org/2012/07/13/ssh-disable-known_hosts-prompt/
+#
+version: 2
+jobs:
+  build:
+    docker:
+      # specify the version you desire here
+      - image: circleci/node:7.10
+      
+      # Specify service dependencies here if necessary
+      # CircleCI maintains a library of pre-built images
+      # documented at https://circleci.com/docs/2.0/circleci-images/
+      # - image: circleci/mongo:3.4.4
+
+    working_directory: ~/coffee-bot
+
+    steps:
+      - checkout
+
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run: 
+          name: Install Dependencies
+          command: yarn
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      # run tests!
+      # - run: npm test
+      
+      # Deploy to Digital ocean if build is master branch
+      - deploy:
+          name: Deploy
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "master" ]; then
+              # Install rsync since it's not there by default on circle ci machines?
+              # https://discuss.circleci.com/t/deployments-with-rsync/13003/2
+              sudo apt install rsync
+
+              # Copy the fullfillment server to the prod machine
+              rsync -auv --delete --progress ./packages/fulfillment-server $DROPLET_USER@$DROPLET_IP:~/coffee-bot -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+            fi

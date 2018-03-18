@@ -25,13 +25,17 @@ app.post('*', (req, res) => {
   res.send('Hello World POST!');
 });
 
-app.use((err, req, res) => {
-  logger.error(err.toString());
-  if (err.stack) {
-    getStackLines(err.stack).forEach(line => logger.error(line));
+app.use((err, req, res, next) => {
+  if (err) {
+    logger.error(err.toString());
+    if (err.stack) {
+      getStackLines(err.stack).forEach(line => logger.error(line));
+    }
+    res.status(err.code || 500);
+    return res.send('Sorry, an error occurred');
   }
-  res.status(err.code || 500);
-  res.send('Sorry, an error occurred');
+
+  return next(err);
 });
 
 const listener = app.listen(3000, () => {

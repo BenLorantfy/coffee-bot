@@ -58,5 +58,5 @@ jobs:
               rsync -auv --delete --progress . $DROPLET_USER@$DROPLET_IP:~/coffee-bot -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
               # Restart the thing
-              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "pm2 start ~/coffee-bot/process.yml"
+              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot && pm2 start ~/coffee-bot/process.yml"
             fi

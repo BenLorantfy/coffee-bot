@@ -2,7 +2,7 @@
   "private": true,
   "name": "coffeebot",
   "version": "1.0.0",
-  "description": "The coffee bot monorepo",
+  "description": "The coffee bot monorepo.",
   "scripts": {
     "precommit": "lint-staged",
     "start": "pm2 start process.yml && pm2 log",

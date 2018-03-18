@@ -27,7 +27,9 @@ app.post('*', (req, res) => {
 
 app.use((err, req, res) => {
   logger.error(err.toString());
-  getStackLines(err.stack).forEach(line => logger.error(line));
+  if (err.stack) {
+    getStackLines(err.stack).forEach(line => logger.error(line));
+  }
   res.status(err.code || 500);
   res.send('Sorry, an error occurred');
 });

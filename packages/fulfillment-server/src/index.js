@@ -32,7 +32,7 @@ app.use((err, req, res, next) => {
       getStackLines(err.stack).forEach(line => logger.error(line));
     }
     res.status(err.code || 500);
-    return res.send('Sorry, an error occurred');
+    return res.send('Sorry, an error occurred :(');
   }
 
   return next(err);

@@ -54,6 +54,9 @@ jobs:
               # https://discuss.circleci.com/t/deployments-with-rsync/13003/2
               sudo apt install rsync
 
-              # Copy the fullfillment server to the prod machine
-              rsync -auv --delete --progress ./packages/fulfillment-server $DROPLET_USER@$DROPLET_IP:~/coffee-bot -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+              # Copy err'thing to the prod machine
+              rsync -auv --delete --progress . $DROPLET_USER@$DROPLET_IP:~/coffee-bot -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+
+              # Restart the thing
+              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "pm2 start ~/coffee-bot/process.yml"
             fi

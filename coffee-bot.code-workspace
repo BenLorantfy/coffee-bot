@@ -1,0 +1,17 @@
+{
+"folders": [
+	{
+		"path": "."
+	},
+	{
+		"path": "packages/fulfillment-server"
+	},
+	{
+		"path": "packages/client"
+	},
+	{
+		"path": "packages/firmware"
+	}
+],
+  "settings": {}
+}

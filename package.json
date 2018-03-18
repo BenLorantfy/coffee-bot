@@ -5,6 +5,7 @@
   "description": "The coffee bot monorepo",
   "scripts": {
     "precommit": "lint-staged",
+    "start": "pm2 start process.yml && pm2 log",
     "build": "gulp build",
     "watch": "gulp watch",
     "test": "jest",

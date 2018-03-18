@@ -1,19 +1,37 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import fs from 'fs';
+import logger, { getStackLines } from './utils/logger';
+import { ValidationError } from './errors';
 
 const app = express();
 app.use(bodyParser.json());
 
-app.get('/auth', (req, res) => {
+function isValidQuery() {
+  return false;
+}
+
+app.get('/auth', (req, res, next) => {
+  if (!isValidQuery(req.query)) {
+    return next(new ValidationError('Not a valid query'));
+  }
+
   const html = fs.readFileSync(`${__dirname}/../static/auth.html`);
   res.header('Content-Type', 'text/html');
-  res.send(html);
+  return res.send(html);
 });
 
 app.post('*', (req, res) => {
-  console.log('POST REQUEST', req.body);
   res.send('Hello World POST!');
 });
 
-app.listen(3000, () => console.log('Example app listening on port 3000!'));
+app.use((err, req, res) => {
+  logger.error(err.toString());
+  getStackLines(err.stack).forEach(line => logger.error(line));
+  res.status(err.code || 500);
+  res.send('Sorry, an error occurred');
+});
+
+const listener = app.listen(3000, () => {
+  logger.info(`Listing on port ${listener.address().port}`);
+});

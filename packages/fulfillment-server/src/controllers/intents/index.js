@@ -1,3 +1,5 @@
+import logger from '../../utils/logger';
+
 const deviceId = 'coffee-bot';
 
 const intentTypes = {
@@ -20,6 +22,7 @@ const executionStatuses = {
 
 class IntentsController {
   process(intent) {
+    logger.info(`Processing intent: ${intent.intent}`);
     if (intent.intent === intentTypes.SYNC) {
       return {
         devices: [

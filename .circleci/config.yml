@@ -57,6 +57,9 @@ jobs:
               # Copy err'thing to the prod machine
               rsync -auv --delete --progress . $DROPLET_USER@$DROPLET_IP:~/coffee-bot -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
+              # Add the secrets
+              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "echo $COFFEE_BOT_SECRETS >> ~/coffee-bot/packages/fulfillment-server/secrets/index.js"
+
               # Restart the thing
-              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot && pm2 start ~/coffee-bot/process.json"
+              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot && pm2 start process.json"
             fi

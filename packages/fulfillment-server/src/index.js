@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import logger, { getStackLines } from './utils/logger';
 import auth from './routes/auth';
 import oauth from './routes/oauth';
+import fulfillment from './routes/fulfillment';
 
 const app = express();
 
@@ -11,6 +12,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 /** routes */
+app.use('/fulfillment', fulfillment);
 app.use('/auth', auth);
 app.use('/oauth', oauth);
 

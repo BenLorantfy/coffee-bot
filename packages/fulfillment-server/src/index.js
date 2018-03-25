@@ -11,6 +11,11 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use('/*', (req, res, next) => {
+  logger.info(`${req.method} ${req.originalUrl}`);
+  next();
+});
+
 /** routes */
 app.use('/fulfillment', fulfillment);
 app.use('/auth', auth);

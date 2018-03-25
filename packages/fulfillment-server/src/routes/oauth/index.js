@@ -52,6 +52,7 @@ function isValidTokenRequest(body) {
 }
 
 router.get('/auth', (req, res, next) => {
+  logger.info('Received request to get login page');
   if (!isValidAuthRequest(req.query)) {
     return next(new ValidationError('Not a valid query'));
   }
@@ -62,6 +63,7 @@ router.get('/auth', (req, res, next) => {
 });
 
 router.post('/token', (req, res, next) => {
+  logger.info('Received request to create token');
   if (!isValidTokenRequest(req.body)) {
     return next(new ValidationError('Not a valid body'));
   }

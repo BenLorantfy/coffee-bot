@@ -4,6 +4,7 @@ import logger from '../../utils/logger';
 import { ValidationError } from '../../errors';
 import basicAuth from 'basic-auth';
 import jwt from 'jsonwebtoken';
+import secrets from '../../../secrets';
 
 const router = Router();
 
@@ -14,7 +15,7 @@ router.get('/token', (req, res) => {
   }
 
   // todo: signup/login user
-  var token = jwt.sign(info, 'shhhhh');
+  var token = jwt.sign(info, secrets.jwt_secret);
 
   return res.json({ 
     token,

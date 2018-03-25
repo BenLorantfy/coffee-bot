@@ -6,12 +6,14 @@ import oauth from './routes/oauth';
 
 const app = express();
 
+/** middleware */
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 /** routes */
 app.use('/auth', auth);
 app.use('/oauth', oauth);
 
-/** middleware */
-app.use(bodyParser.json());
 app.use((err, req, res, next) => {
   if (err) {
     logger.error(err.toString());

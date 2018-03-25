@@ -9,6 +9,7 @@ import secrets from '../../../secrets';
 const router = Router();
 
 router.get('/token', (req, res) => {
+  logger.info('Received login request');
   var credentials = basicAuth.parse(req.get('Authorization'));
   var info = {
     username: credentials.name,

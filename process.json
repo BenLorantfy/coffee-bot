@@ -1,0 +1,11 @@
+{
+  "apps" : [
+    {
+      "name": "fulfillment-server",
+      "script": "./packages/fulfillment-server/index.js",
+      "cwd": "./packages/fulfillment-server",
+      // http://pm2.keymetrics.io/docs/usage/environment/#specific-environment-variables
+      "instance_var": "fulfillment-server"
+    }
+  ]
+}

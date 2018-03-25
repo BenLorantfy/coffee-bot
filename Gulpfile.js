@@ -59,7 +59,7 @@ function restartPackage(name) {
   log.info(`Restarting ${colors.blue(name)}`);
   exec(`pm2 restart ${name}`, function(err) {
     if (err) {
-      log.error(`Failed to restart ${name}`);
+      log.error(`Failed to restart ${colors.red(name)} because: `, err.toString());
       return
     }
 

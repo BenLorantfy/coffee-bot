@@ -1,3 +1,0 @@
-apps:
-  - script: packages/fulfillment-server/index.js
-    name: fulfillment-server

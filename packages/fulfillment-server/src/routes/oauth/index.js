@@ -61,7 +61,7 @@ router.get('/auth', (req, res, next) => {
   return res.send(html);
 });
 
-router.post('/oauth/token', (req, res, next) => {
+router.post('/token', (req, res, next) => {
   if (!isValidTokenRequest(req.body)) {
     return next(new ValidationError('Not a valid body'));
   }

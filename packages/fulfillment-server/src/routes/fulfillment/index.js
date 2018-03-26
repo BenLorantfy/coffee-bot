@@ -7,8 +7,6 @@ import secrets from '../../../secrets';
 import jwt from 'jsonwebtoken';
 import { promisify } from 'es6-promisify';
 import IntentsController from '../../controllers/intents';
-import jwt from 'jsonwebtoken';
-import { promisify } from 'es6-promisify';
 const jwtVerify = promisify(jwt.verify);
 const router = Router();
 

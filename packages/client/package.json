@@ -9,6 +9,8 @@
   "author": "Ben Lorantfy",
   "license": "UNLICENSED",
   "dependencies": {
-    "johnny-five": "^0.14.1"
+    "config": "^1.30.0",
+    "johnny-five": "^0.14.1",
+    "socket.io-client": "^2.0.4"
   }
 }

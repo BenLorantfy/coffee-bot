@@ -1,11 +1,19 @@
 import express from 'express';
 import bodyParser from 'body-parser';
+import http from 'http';
 import logger, { getStackLines } from './utils/logger';
 import auth from './routes/auth';
 import oauth from './routes/oauth';
 import fulfillment from './routes/fulfillment';
+import CoffeeController from './controllers/coffee';
 
 const app = express();
+const server = http.Server(app);
+
+/**
+ * Listen for the coffee maker to start a connection
+ */
+CoffeeController.listenForCoffeeMachine(server);
 
 /** middleware */
 app.use(bodyParser.json());
@@ -35,6 +43,6 @@ app.use((err, req, res, next) => {
 });
 
 /** start the app */
-const listener = app.listen(3000, () => {
-  logger.info(`Listing on port ${listener.address().port}`);
+const listener = server.listen(3000, () => {
+  logger.info(`Listening for API requests on port ${listener.address().port}...`);
 });

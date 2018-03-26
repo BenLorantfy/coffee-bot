@@ -1,4 +1,5 @@
 import logger from '../../utils/logger';
+import CoffeeController from '../coffee';
 
 const deviceId = 'coffee-bot';
 
@@ -60,6 +61,8 @@ class IntentsController {
     }
 
     if (intent.intent === intentTypes.EXECUTE) {
+      CoffeeController.makeCoffee();
+      
       return {
         commands: [{
           "ids": [deviceId],

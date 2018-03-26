@@ -36,7 +36,7 @@ class IntentsController {
             name: {
               "defaultNames": ["My Coffee Maker"],
               "name": "Coffee Maker",
-              "nicknames": ["keurig", "coffee maker", "coffee pot"]
+              "nicknames": ["coffee maker", "keurig", "coffee pot"]
             },
             deviceInfo: {
               manufacturer: "Lorantfy Inc",
@@ -61,7 +61,7 @@ class IntentsController {
 
     if (intent.intent === intentTypes.EXECUTE) {
       return {
-        "commands": [{
+        commands: [{
           "ids": [deviceId],
           "status": executionStatuses.SUCCESS,
           "states": {
@@ -70,10 +70,6 @@ class IntentsController {
         }]
       }
     }
-  }
-
-  processCommand(command) {
-
   }
 }
 

@@ -72,7 +72,10 @@ router.post('/token', (req, res, next) => {
     .then((decoded) => {
       const info = {
         client_id: config.get('google.clientId'),
-        username: decoded.username
+        username: decoded.username,
+        scopes: [
+          "coffee.make"
+        ]
       }
 
       const expiresIn = ONE_DAY_IN_SECONDS;

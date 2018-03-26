@@ -2,12 +2,14 @@ import { Router } from 'express';
 import config from 'config';
 import logger from '../../utils/logger';
 import fs from 'fs';
-import { ValidationError } from '../../errors';
+import { ValidationError, UnauthorizedError } from '../../errors';
 import secrets from '../../../secrets';
 import jwt from 'jsonwebtoken';
 import { promisify } from 'es6-promisify';
 import IntentsController from '../../controllers/intents';
-
+import jwt from 'jsonwebtoken';
+import { promisify } from 'es6-promisify';
+const jwtVerify = promisify(jwt.verify);
 const router = Router();
 
 router.post('/', (req, res, next) => {
@@ -16,13 +18,28 @@ router.post('/', (req, res, next) => {
     return next(new ValidationError('Request wasn\'t formatted correctly'));
   }
 
-  const intent = req.body.inputs[0];
-  const payload = IntentsController.process(intent);
+  if (!req.headers.authorization) {
+    return next(new UnauthorizedError('Missing authorization header'));
+  }
 
-  return res.json({
-    requestId: req.body.requestId,
-    payload
-  });
+  const token = req.headers.authorization.split(' ')[1];
+  return jwtVerify(token)
+    .then((decoded) => {
+      if (!(decoded && decoded.scopes && decoded.scopes.includes('coffee.make'))) {
+        return next(new UnauthorizedError('User doesn\'t have the coffee.make scope'));
+      }
+
+      const intent = req.body.inputs[0];
+      const payload = IntentsController.process(intent);
+    
+      return res.json({
+        requestId: req.body.requestId,
+        payload
+      });
+    })
+    .catch(() => {
+      next(new UnauthorizedError('Invalid JWT'))
+    });
 });
 
 

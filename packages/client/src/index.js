@@ -3,10 +3,17 @@ import io from 'socket.io-client';
 import config from 'config';
 import secrets from '../secrets';
 
+/**
+ * Relay mapping:
+ * 7: Power Button
+ * 6: Brew Half Cup (Left Button)
+ * 5: Brew Full Cup (Right Button)
+ * 4: auto-off button
+ */
 const board = new five.Board();
-board.on('ready', () => {
+board.on('ready', function () {
   console.log('Board is ready');
-  const led = new five.Led(13);
+  const brewButton = new five.Relay(6);
   io(config.get('url'), {
     query: { token: secrets.coffee_token },
   })
@@ -15,9 +22,18 @@ board.on('ready', () => {
     })
     .on('brew', () => {
       console.log('Recieved brew command');
-      led.on();
+      brewButton.on();
+      setTimeout(() => {
+        brewButton.off();
+      }, 500);
     })
     .on('disconnect', () => {
       console.log('Disconnected from coffee server');
     });
+
+  if (process.env.NODE_ENV === 'development') {
+    this.repl.inject({
+      five,
+    });
+  }
 });

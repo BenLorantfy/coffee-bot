@@ -23,6 +23,7 @@ class CoffeeController {
 
   makeCoffee() {
     if (this.coffeeSocket) { 
+      logger.info('Turning on coffee maker');
       this.coffeeSocket.emit('brew');
     } else {
       logger.error('Can\'t brew the coffee, the coffee machine hasn\'t connected yet');

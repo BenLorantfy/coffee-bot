@@ -5,6 +5,7 @@ import secrets from '../../../secrets';
 class CoffeeController {
   coffeeSocket = null;
   heatbeatInterval = 5 * 1000;
+  heartbeatTimeout = setTimeout(() => {}, 0);
 
   listenForCoffeeMachine(server) {
     logger.info('Listening for websocket connection from coffee maker...');
@@ -24,10 +25,11 @@ class CoffeeController {
   }
 
   sendHeartbeat() {
+    clearTimeout(this.heartbeatTimeout);
     if (this.coffeeSocket) { 
       logger.info('Sending heartbeat');
       this.coffeeSocket.emit('heartbeat');
-      setTimeout(() => this.sendHeartbeat(), this.heatbeatInterval);
+      this.heartbeatTimeout = setTimeout(() => this.sendHeartbeat(), this.heatbeatInterval);
     } else {
       logger.error('Not sending heartbeat becase the the coffee machine hasn\'t connected yet');
     }

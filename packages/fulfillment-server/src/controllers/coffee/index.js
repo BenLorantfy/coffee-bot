@@ -4,9 +4,6 @@ import secrets from '../../../secrets';
 
 class CoffeeController {
   coffeeSocket = null;
-  constructor() {
-    console.log('constructorrrrr');
-  }
 
   listenForCoffeeMachine(server) {
     logger.info('Listening for websocket connection from coffee maker...');

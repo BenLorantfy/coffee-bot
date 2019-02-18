@@ -14,7 +14,8 @@ const logger = new Logger({
       formatter: ({ level, message }) => {
         const color = getColor(level);
         const prefix = colors[color](`[${level.toUpperCase()}]`);
-        return `${prefix} ${message}`;
+        const date = colors.grey(new Date().toISOString());
+        return `[${date}] ${prefix} ${message}`;
       }
     }),
   ]

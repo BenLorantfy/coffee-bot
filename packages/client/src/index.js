@@ -14,11 +14,12 @@ const board = new five.Board();
 board.on('ready', function () {
   console.log('Board is ready');
   const brewButton = new five.Relay(6);
-  io(config.get('url'), {
+  const socket = io(config.get('url'), {
     query: { token: secrets.coffee_token },
   })
     .on('connect', () => {
       console.log('Connected to coffee server');
+      listenForHeartbeat();
     })
     .on('brew', () => {
       console.log('Recieved brew command');
@@ -27,9 +28,23 @@ board.on('ready', function () {
         brewButton.off();
       }, 500);
     })
+    .on('heartbeat', () => {
+      console.log('Recieved heartbeat command');
+      listenForHeartbeat();
+    })
     .on('disconnect', () => {
       console.log('Disconnected from coffee server');
     });
+
+  let timeout = setTimeout(function(){}, 0);
+  function listenForHeartbeat() {
+    clearTimeout(timeout);
+    let timeout = setTimeout(function() {
+      console.log('Haven\'t recieved a heartbeat in 15 seconds, reconnecting');
+      socket.close();
+      socket.open();
+    }, 15 * 1000);
+  }
 
   if (process.env.NODE_ENV === 'development') {
     this.repl.inject({

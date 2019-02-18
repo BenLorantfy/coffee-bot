@@ -52,6 +52,7 @@ jobs:
             if [ "${CIRCLE_BRANCH}" == "master" ]; then
               # Install rsync since it's not there by default on circle ci machines?
               # https://discuss.circleci.com/t/deployments-with-rsync/13003/2
+              sudo apt update
               sudo apt install rsync
 
               # Copy err'thing to the prod machine

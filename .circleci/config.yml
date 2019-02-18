@@ -59,7 +59,7 @@ jobs:
               rsync -auv --delete --progress . $DROPLET_USER@$DROPLET_IP:~/coffee-bot -e "ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
 
               # Add the secrets
-              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot/packages/fulfillment-server && mkdir secrets && echo $COFFEE_BOT_SECRETS >> ./secrets/index.js"
+              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot/packages/fulfillment-server && mkdir secrets && echo '$COFFEE_BOT_SECRETS' >> ./secrets/index.js"
 
               # Restart the thing
               ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot && pm2 start process.json"

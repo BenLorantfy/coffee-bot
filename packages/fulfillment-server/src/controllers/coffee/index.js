@@ -4,7 +4,7 @@ import secrets from '../../../secrets';
 
 class CoffeeController {
   coffeeSocket = null;
-  heatbeatInterval = 5;
+  heatbeatInterval = 5 * 1000;
 
   listenForCoffeeMachine(server) {
     logger.info('Listening for websocket connection from coffee maker...');

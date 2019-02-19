@@ -9,7 +9,8 @@
     "build": "gulp build",
     "watch": "gulp watch",
     "test": "jest",
-    "lint": "eslint packages/**/src/*.js"
+    "lint": "eslint packages/**/src/*.js",
+    "deploy-client": "./scripts/deploy-client.sh"
   },
   "lint-staged": {
     "packages/**/src/*.js": [

@@ -19,13 +19,21 @@ class CoffeeController {
       })
       .on('connection', (socket) => {
         this.coffeeSocket = socket;
+        this.coffeeSocket.on('disconnect', () => {
+          logger.info('Coffee maker disconnected! Stopping hearbeats.');
+          this.stopHeartbeat();
+        });
         logger.info('Coffee maker connected! Starting heartbeats...');
         this.sendHeartbeat();
       });
   }
 
-  sendHeartbeat() {
+  stopHeartbeat() {
     clearTimeout(this.heartbeatTimeout);
+  }
+
+  sendHeartbeat() {
+    this.stopHeartbeat();
     if (this.coffeeSocket) { 
       logger.info('Sending heartbeat');
       this.coffeeSocket.emit('heartbeat');

@@ -19,6 +19,7 @@ const deviceTraits = {
 
 const executionStatuses = {
   SUCCESS: "SUCCESS",
+  ERROR: "ERROR"
 }
 
 class IntentsController {
@@ -62,7 +63,7 @@ class IntentsController {
 
     if (intent.intent === intentTypes.EXECUTE) {
       return CoffeeController.makeCoffee().then(() => {
-        logger.error('Execute intent succeeded');
+        logger.info('Execute intent succeeded');
         return {
           commands: [{
             "ids": [deviceId],
@@ -72,15 +73,16 @@ class IntentsController {
             }
           }]
         }
-      }).catch(() => {
-        logger.error('Execute intent failed');
+      }).catch((err) => {
+        logger.error(`Execute intent failed, error: ${err.toString()}`);
         return {
           commands: [{
             "ids": [deviceId],
-            "status": executionStatuses.SUCCESS,
+            "status": executionStatuses.ERROR,
             "states": {
-              "on": true
-            }
+              "on": false
+            },
+            "debugString": err.toString(),
           }]
         }
       })

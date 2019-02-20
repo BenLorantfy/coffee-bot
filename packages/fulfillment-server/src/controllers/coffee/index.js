@@ -45,22 +45,26 @@ class CoffeeController {
 
   makeCoffee() {
     return new Promise((resolve, reject) => {
-      if (this.coffeeSocket) { 
-        logger.info('Sending coffee maker command to turn on');
-        this.coffeeSocket.emit('brew', (response) => {
-          if (response && response.status === "SUCCESS") {
-            logger.info('Coffee maker says it turned itself on');
-            resolve();
-            return;
-          }
-  
-          logger.info('Coffee maker failed to turn on');
-          reject();
-        });
-      } else {
+      if (!this.coffeeSocket) {
         logger.error('Can\'t brew the coffee, the coffee machine hasn\'t connected yet');
-        reject();
+        return reject();
       }
+
+      if (!this.coffeeSocket.connected) {
+        logger.error('Can\'t brew the coffee, the coffee machine is disconnected');
+        return reject();
+      }
+
+      logger.info('Sending coffee maker command to turn on');
+      this.coffeeSocket.emit('brew', (response) => {
+        if (response && response.status === "SUCCESS") {
+          logger.info('Coffee maker says it turned itself on');
+          return resolve();
+        }
+
+        logger.info('Coffee maker failed to turn on');
+        return reject();
+      });
     });
   }
 }

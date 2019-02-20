@@ -22,6 +22,9 @@ router.post('/', (req, res, next) => {
 
   const token = req.headers.authorization.split(' ')[1];
   return jwtVerify(token, secrets.jwt_secret)
+    .catch((err) => {
+      next(new UnauthorizedError('Invalid JWT'))
+    })
     .then((decoded) => {
       if (!(decoded && decoded.scopes && decoded.scopes.includes('coffee.make'))) {
         return next(new UnauthorizedError('User doesn\'t have the coffee.make scope'));
@@ -34,9 +37,6 @@ router.post('/', (req, res, next) => {
           payload
         });
       });
-    })
-    .catch((err) => {
-      next(new UnauthorizedError('Invalid JWT'))
     });
 });
 

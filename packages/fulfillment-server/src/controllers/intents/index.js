@@ -82,7 +82,7 @@ class IntentsController {
             "states": {
               "on": false
             },
-            "debugString": err.toString(),
+            "debugString": (err && err.toString()) || "",
           }]
         }
       })

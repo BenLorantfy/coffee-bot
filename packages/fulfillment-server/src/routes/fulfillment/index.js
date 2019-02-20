@@ -28,11 +28,11 @@ router.post('/', (req, res, next) => {
       }
 
       const intent = req.body.inputs[0];
-      const payload = IntentsController.process(intent);
-    
-      return res.json({
-        requestId: req.body.requestId,
-        payload
+      IntentsController.process(intent).then((payload) => {
+        res.json({
+          requestId: req.body.requestId,
+          payload
+        });
       });
     })
     .catch((err) => {

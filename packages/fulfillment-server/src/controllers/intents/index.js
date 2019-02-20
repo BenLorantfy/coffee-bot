@@ -25,7 +25,7 @@ class IntentsController {
   process(intent) {
     logger.info(`Processing intent: ${intent.intent}`);
     if (intent.intent === intentTypes.SYNC) {
-      return {
+      return Promise.resolve({
         devices: [
           {
             id: deviceId,
@@ -47,31 +47,43 @@ class IntentsController {
             }
           }
         ]
-      }
+      });
     }
 
     if (intent.intent === intentTypes.QUERY) {
-      return {
+      return Promise.resolve({
         devices: {
           [deviceId]: {
             online: true
           }
         }
-      }
+      });
     }
 
     if (intent.intent === intentTypes.EXECUTE) {
-      CoffeeController.makeCoffee();
-      
-      return {
-        commands: [{
-          "ids": [deviceId],
-          "status": executionStatuses.SUCCESS,
-          "states": {
-            "on": true
-          }
-        }]
-      }
+      return CoffeeController.makeCoffee().then(() => {
+        logger.error('Execute intent succeeded');
+        return {
+          commands: [{
+            "ids": [deviceId],
+            "status": executionStatuses.SUCCESS,
+            "states": {
+              "on": true
+            }
+          }]
+        }
+      }).catch(() => {
+        logger.error('Execute intent failed');
+        return {
+          commands: [{
+            "ids": [deviceId],
+            "status": executionStatuses.SUCCESS,
+            "states": {
+              "on": true
+            }
+          }]
+        }
+      })
     }
   }
 }

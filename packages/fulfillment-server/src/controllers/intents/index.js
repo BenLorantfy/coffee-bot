@@ -75,7 +75,7 @@ class IntentsController {
         }
       }).catch((err) => {
         logger.error(`Execute intent failed, error: ${err.toString()}`);
-        return {
+        return Promise.resolve({
           commands: [{
             "ids": [deviceId],
             "status": executionStatuses.ERROR,
@@ -84,7 +84,7 @@ class IntentsController {
             },
             "debugString": (err && err.toString()) || "",
           }]
-        }
+        })
       })
     }
   }

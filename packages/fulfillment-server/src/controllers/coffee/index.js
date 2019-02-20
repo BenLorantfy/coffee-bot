@@ -45,8 +45,15 @@ class CoffeeController {
 
   makeCoffee() {
     if (this.coffeeSocket) { 
-      logger.info('Turning on coffee maker');
-      this.coffeeSocket.emit('brew');
+      logger.info('Sending coffee maker command to turn on');
+      this.coffeeSocket.emit('brew', (response) => {
+        if (response && response.status === "SUCCESS") {
+          logger.info('Coffee maker says it turned itself on');
+          return;
+        }
+
+        logger.info('Coffee maker failed to turn on');
+      });
     } else {
       logger.error('Can\'t brew the coffee, the coffee machine hasn\'t connected yet');
     }

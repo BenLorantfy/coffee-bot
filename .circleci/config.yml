@@ -62,5 +62,5 @@ jobs:
               ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot/packages/fulfillment-server && mkdir secrets && echo '$COFFEE_BOT_SECRETS' >> ./secrets/index.js"
 
               # Restart the thing
-              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot && pm2 start process.json"
+              ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null $DROPLET_USER@$DROPLET_IP "cd ~/coffee-bot && pm2 start process.json --only fulfillment-server"
             fi

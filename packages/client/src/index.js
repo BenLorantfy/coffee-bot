@@ -21,12 +21,14 @@ board.on('ready', function () {
       console.log('Connected to coffee server');
       listenForHeartbeat();
     })
-    .on('brew', () => {
+    .on('brew', (acknowledge) => {
       console.log('Recieved brew command');
       brewButton.on();
       setTimeout(() => {
         brewButton.off();
       }, 500);
+
+      acknowledge({ status: 'SUCCESS' });
     })
     .on('heartbeat', () => {
       console.log('Recieved heartbeat command');

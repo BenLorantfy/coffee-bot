@@ -6,6 +6,16 @@
       "cwd": "./packages/fulfillment-server",
       // http://pm2.keymetrics.io/docs/usage/environment/#specific-environment-variables
       "instance_var": "fulfillment-server"
+    },
+    {
+      "name": "fulfillment-client",
+      "script": "./index.js",
+      "cwd": "./packages/client",
+      // http://pm2.keymetrics.io/docs/usage/environment/#specific-environment-variables
+      "instance_var": "fulfillment-client",
+      "env_production": {
+        "NODE_ENV": "production"
+      }
     }
   ]
 }

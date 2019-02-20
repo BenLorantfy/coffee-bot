@@ -3946,9 +3946,9 @@ jest@^22.4.2:
     import-local "^1.0.0"
     jest-cli "^22.4.2"
 
-johnny-five@^0.14.1:
-  version "0.14.1"
-  resolved "https://registry.yarnpkg.com/johnny-five/-/johnny-five-0.14.1.tgz#cd13fe1afa6e20bd67e97150e2f38c163d2dc400"
+johnny-five@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/johnny-five/-/johnny-five-1.0.0.tgz#be0e82cd88a8736c5ec1c6e78e44069c4ff0acc7"
   dependencies:
     chalk "2.1.0"
     color-convert "~1.2.2"

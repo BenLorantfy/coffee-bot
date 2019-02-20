@@ -1,4 +1,4 @@
-// import five from 'johnny-five';
+import five from 'johnny-five';
 import io from 'socket.io-client';
 import config from 'config';
 import secrets from '../secrets';
@@ -10,10 +10,10 @@ import secrets from '../secrets';
  * 5: Brew Full Cup (Right Button)
  * 4: auto-off button
  */
-// const board = new five.Board();
-// board.on('ready', function () {
+const board = new five.Board();
+board.on('ready', function () {
   console.log('Board is ready');
-  // const brewButton = new five.Relay(6);
+  const brewButton = new five.Relay(6);
   const socket = io(config.get('url'), {
     query: { token: secrets.coffee_token },
   })
@@ -23,9 +23,9 @@ import secrets from '../secrets';
     })
     .on('brew', () => {
       console.log('Recieved brew command');
-      // brewButton.on();
+      brewButton.on();
       setTimeout(() => {
-        // brewButton.off();
+        brewButton.off();
       }, 500);
     })
     .on('heartbeat', () => {
@@ -46,9 +46,9 @@ import secrets from '../secrets';
     }, 15 * 1000);
   }
 
-  // if (process.env.NODE_ENV === 'development') {
-  //   this.repl.inject({
-  //     five,
-  //   });
-  // }
-// });
+  if (process.env.NODE_ENV === 'development') {
+    this.repl.inject({
+      five,
+    });
+  }
+});

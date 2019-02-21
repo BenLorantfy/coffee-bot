@@ -35,7 +35,7 @@ class CoffeeController {
   sendHeartbeat() {
     this.stopHeartbeat();
     if (this.coffeeSocket) { 
-      logger.info('Sending heartbeat');
+      logger.log('verbose', 'Sending heartbeat');
       this.coffeeSocket.emit('heartbeat');
       this.heartbeatTimeout = setTimeout(() => this.sendHeartbeat(), this.heatbeatInterval);
     } else {

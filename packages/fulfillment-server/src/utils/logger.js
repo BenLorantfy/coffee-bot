@@ -8,14 +8,25 @@ const getColor = (level) => {
   return 'white';
 }
 
+const formatMessage = (date, prefix, message) => `[${date}] ${prefix} ${message}`;
+
 const logger = new Logger({
   transports: [
-    new (transports.Console)({
+    new transports.Console({
       formatter: ({ level, message }) => {
         const color = getColor(level);
         const prefix = colors[color](`[${level.toUpperCase()}]`);
         const date = colors.grey(new Date().toISOString());
-        return `[${date}] ${prefix} ${message}`;
+        return formatMessage(date, prefix, message);
+      },
+      level: 'info'
+    }),
+    new transports.File({
+      filename: 'coffee-bot.log',
+      formatter: ({ level, message }) => {
+        const prefix = `[${level.toUpperCase()}]`;
+        const date = new Date().toISOString();
+        return formatMessage(date, prefix, message);
       }
     }),
   ]

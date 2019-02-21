@@ -1,4 +1,4 @@
-import { createLogger, transports } from 'winston';
+import { createLogger, format, transports } from 'winston';
 import colors from 'colors';
 
 const getColor = (level) => {
@@ -8,22 +8,26 @@ const getColor = (level) => {
   return 'white';
 };
 
-const formatMessage = (date, prefix, message) => `[${date}] ${prefix} ${message}`;
+const plainFormat = format(({ level, message }) => {
+  const color = getColor(level);
+  const prefix = colors[color](`[${level.toUpperCase()}]`);
+  const date = colors.grey(new Date().toISOString());
+  return `[${date}] ${prefix} ${message}`;
+});
 
 export const logger = createLogger({
   transports: [
     new transports.Console({
-      formatter: ({ level, message }) => {
-        const color = getColor(level);
-        const prefix = colors[color](`[${level.toUpperCase()}]`);
-        const date = colors.grey(new Date().toISOString());
-        return formatMessage(date, prefix, message);
-      },
+      format: plainFormat,
       level: 'info',
     }),
     new transports.File({
       filename: '../../logs/fulfillment-server.log',
       level: 'verbose',
+      format: format.combine(
+        format.json(),
+        format.timestamp(),
+      ),
     }),
   ],
 });

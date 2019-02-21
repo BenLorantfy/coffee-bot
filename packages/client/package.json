@@ -1,5 +1,5 @@
 {
-  "name": "coffeebot-client",
+  "name": "@coffee-bot/client",
   "version": "1.0.0",
   "description": "The coffee bot client",
   "main": "index.js",

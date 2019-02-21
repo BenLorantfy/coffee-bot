@@ -1,5 +1,5 @@
 {
-  "name": "coffeebot-firmware",
+  "name": "@coffee-bot/firmware",
   "version": "1.0.0",
   "description": "This is the firmware that needs to run on the microcontroller. If you're using an arduino uno, you can simply plug in your board and run `npm run setup`",
   "main": "index.js",

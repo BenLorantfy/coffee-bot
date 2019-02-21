@@ -18,7 +18,7 @@ const plainFormat = format(({ level, message }) => {
 export const logger = createLogger({
   transports: [
     new transports.Console({
-      format: plainFormat,
+      format: plainFormat(),
       level: 'info',
     }),
     new transports.File({

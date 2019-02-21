@@ -4,7 +4,7 @@ import secrets from '../../../secrets';
 
 class CoffeeController {
   coffeeSocket = null;
-  heatbeatInterval = 5 * 1000;
+  heatbeatInterval = 30 * 1000;
   heartbeatTimeout = setTimeout(() => {}, 0);
 
   listenForCoffeeMachine(server) {

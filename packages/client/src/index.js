@@ -1,7 +1,10 @@
 import five from 'johnny-five';
 import io from 'socket.io-client';
 import config from 'config';
+import { createLogger } from '@coffee-bot/logger';
 import secrets from '../secrets';
+
+const logger = createLogger({ projectName: 'client' });
 
 /**
  * Relay mapping:
@@ -12,17 +15,17 @@ import secrets from '../secrets';
  */
 const board = new five.Board();
 board.on('ready', function () {
-  console.log('Board is ready');
+  logger.info('Board is ready');
   const brewButton = new five.Relay(6);
   const socket = io(config.get('url'), {
     query: { token: secrets.coffee_token },
   })
     .on('connect', () => {
-      console.log('Connected to coffee server');
+      logger.info('Connected to coffee server');
       listenForHeartbeat();
     })
     .on('brew', (acknowledge) => {
-      console.log('Recieved brew command');
+      logger.info('Recieved brew command');
       brewButton.on();
       setTimeout(() => {
         brewButton.off();
@@ -31,21 +34,21 @@ board.on('ready', function () {
       acknowledge({ status: 'SUCCESS' });
     })
     .on('heartbeat', () => {
-      console.log('Recieved heartbeat command');
+      logger.log('verbose', 'Recieved heartbeat command');
       listenForHeartbeat();
     })
     .on('disconnect', () => {
-      console.log('Disconnected from coffee server');
+      logger.info('Disconnected from coffee server');
     });
 
-  let timeout = setTimeout(function(){}, 0);
+  let timeout = setTimeout(() => {}, 0);
   function listenForHeartbeat() {
     clearTimeout(timeout);
-    timeout = setTimeout(function() {
-      console.log('Haven\'t recieved a heartbeat in 15 seconds, reconnecting');
+    timeout = setTimeout(() => {
+      logger.info('Haven\'t recieved a heartbeat in 45 seconds, reconnecting');
       socket.close();
       socket.open();
-    }, 15 * 1000);
+    }, 45 * 1000);
   }
 
   if (process.env.NODE_ENV === 'development') {

@@ -9,6 +9,7 @@
   "author": "Ben Lorantfy",
   "license": "UNLICENSED",
   "dependencies": {
+    "@coffee-bot/logger": "^1.0.0",
     "config": "^1.30.0",
     "johnny-five": "^1.0.0",
     "socket.io-client": "^2.0.4"

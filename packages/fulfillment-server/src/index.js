@@ -1,11 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import http from 'http';
-import logger, { getStackLines } from './utils/logger';
+import { logger, getStackLines } from '@coffee-bot/logger';
 import auth from './routes/auth';
 import oauth from './routes/oauth';
 import fulfillment from './routes/fulfillment';
 import CoffeeController from './controllers/coffee';
+import packageJson from '../package.json';
 
 const app = express();
 const server = http.Server(app);
@@ -43,6 +44,7 @@ app.use((err, req, res, next) => {
 });
 
 /** start the app */
+logger.info(`Starting coffee-bot fulfillment-server version ${packageJson.version}...`);
 const listener = server.listen(3000, () => {
   logger.info(`Listening for API requests on port ${listener.address().port}...`);
 });

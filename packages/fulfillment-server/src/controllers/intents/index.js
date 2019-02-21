@@ -1,4 +1,4 @@
-import { logger, getStackLines } from '@coffee-bot/logger';
+import { logger } from '../../utils';
 import CoffeeController from '../coffee';
 
 const deviceId = 'coffee-bot';

@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import config from 'config';
-import { logger, getStackLines } from '@coffee-bot/logger';
+import { logger } from '../../utils';
 import basicAuth from 'basic-auth';
 import jwt from 'jsonwebtoken';
 import secrets from '../../../secrets';

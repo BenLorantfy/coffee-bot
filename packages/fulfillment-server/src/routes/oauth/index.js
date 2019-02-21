@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import config from 'config';
-import { logger, getStackLines } from '@coffee-bot/logger';
+import { logger } from '../../utils';
 import fs from 'fs';
 import { ValidationError } from '../../errors';
 import secrets from '../../../secrets';

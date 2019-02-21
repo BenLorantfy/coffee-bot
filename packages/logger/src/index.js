@@ -1,4 +1,4 @@
-import { createLogger, format, transports } from 'winston';
+import * as winston from 'winston';
 import colors from 'colors';
 
 const getColor = (level) => {
@@ -8,32 +8,39 @@ const getColor = (level) => {
   return 'white';
 };
 
-const plainFormat = format.printf(({ level, message, timestamp }) => {
+const plainFormat = winston.format.printf(({ level, message, timestamp }) => {
   const color = getColor(level);
   const prefix = colors[color](`[${level.toUpperCase()}]`);
   const date = colors.grey(timestamp);
   return `[${date}] ${prefix} ${message}`;
 });
 
-export const logger = createLogger({
-  transports: [
-    new transports.Console({
-      format: format.combine(
-        format.timestamp(),
+export const createLogger = ({ projectName } = {}) => {
+  const transports = [
+    new winston.transports.Console({
+      format: winston.format.combine(
+        winston.format.timestamp(),
         plainFormat,
       ),
       level: 'info',
     }),
-    new transports.File({
-      filename: '../../logs/fulfillment-server.log',
+  ];
+
+  if (projectName) {
+    transports.push({
+      filename: `../../logs/${projectName}.log`,
       level: 'verbose',
-      format: format.combine(
-        format.timestamp(),
-        format.json(),
+      format: winston.format.combine(
+        winston.format.timestamp(),
+        winston.format.json(),
       ),
-    }),
-  ],
-});
+    });
+  }
+
+  return winston.createLogger({
+    transports,
+  });
+};
 
 /**
  * @name getStackLines
@@ -66,5 +73,3 @@ export const getStackLines = (stack) => {
 
   return lines;
 };
-
-export default logger;

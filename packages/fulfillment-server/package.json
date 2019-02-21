@@ -1,6 +1,6 @@
 {
   "name": "@coffee-bot/fulfillment-server",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "This is the fullfillment server that google will send requests to",
   "main": "index.js",
   "scripts": {

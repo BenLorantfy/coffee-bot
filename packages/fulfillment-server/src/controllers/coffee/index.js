@@ -1,4 +1,4 @@
-import { logger, getStackLines } from '@coffee-bot/logger';
+import { logger } from '../../utils';
 import socketio from 'socket.io';
 import secrets from '../../../secrets';
 

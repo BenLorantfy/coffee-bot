@@ -8,25 +8,28 @@ const getColor = (level) => {
   return 'white';
 };
 
-const plainFormat = format(({ level, message }) => {
+const plainFormat = format.printf(({ level, message, timestamp }) => {
   const color = getColor(level);
   const prefix = colors[color](`[${level.toUpperCase()}]`);
-  const date = colors.grey(new Date().toISOString());
+  const date = colors.grey(timestamp);
   return `[${date}] ${prefix} ${message}`;
 });
 
 export const logger = createLogger({
   transports: [
     new transports.Console({
-      format: plainFormat(),
+      format: format.combine(
+        format.timestamp(),
+        plainFormat,
+      ),
       level: 'info',
     }),
     new transports.File({
       filename: '../../logs/fulfillment-server.log',
       level: 'verbose',
       format: format.combine(
-        format.json(),
         format.timestamp(),
+        format.json(),
       ),
     }),
   ],

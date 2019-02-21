@@ -27,14 +27,14 @@ export const createLogger = ({ projectName } = {}) => {
   ];
 
   if (projectName) {
-    transports.push({
+    transports.push(new winston.transports.File({
       filename: `../../logs/${projectName}.log`,
       level: 'verbose',
       format: winston.format.combine(
         winston.format.timestamp(),
         winston.format.json(),
       ),
-    });
+    }));
   }
 
   return winston.createLogger({

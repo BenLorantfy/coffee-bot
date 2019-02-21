@@ -74,7 +74,8 @@ class IntentsController {
           }]
         }
       }).catch((err) => {
-        logger.error(`Execute intent failed, error: ${err.toString()}`);
+        const errorMessage = (err && err.toString()) || "unknown";
+        logger.error(`Execute intent failed, error: ${errorMessage}`);
         return Promise.resolve({
           commands: [{
             "ids": [deviceId],
@@ -82,7 +83,7 @@ class IntentsController {
             "states": {
               "on": false
             },
-            "debugString": (err && err.toString()) || "",
+            "debugString": (errorMessage) || "",
           }]
         })
       })

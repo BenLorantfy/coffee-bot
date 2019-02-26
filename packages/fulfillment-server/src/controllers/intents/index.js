@@ -10,7 +10,7 @@ const intentTypes = {
 }
 
 const deviceTypes = {
-  SWITCH: "action.devices.types.SWITCH"
+  COFFEE_MAKER: "action.devices.types.COFFEE_MAKER"
 }
 
 const deviceTraits = {
@@ -30,7 +30,7 @@ class IntentsController {
         devices: [
           {
             id: deviceId,
-            type: deviceTypes.SWITCH,
+            type: deviceTypes.COFFEE_MAKER,
             traits: [
               deviceTraits.OnOff
             ],

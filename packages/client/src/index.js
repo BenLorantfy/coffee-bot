@@ -18,7 +18,7 @@ const buttons = {
   BREW_HALF_CUP: 6,
   BREW_FULL_CUP: 5,
   AUTO_OFF_BUTTON: 4,
-}
+};
 
 const board = new five.Board();
 board.on('ready', function () {

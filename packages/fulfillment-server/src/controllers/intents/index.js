@@ -62,7 +62,7 @@ class IntentsController {
     }
 
     if (intent.intent === intentTypes.EXECUTE) {
-      logger.info(intent);
+      logger.info(JSON.stringify(intent));
       return CoffeeController.makeCoffee().then(() => {
         logger.info('Execute intent succeeded');
         return {

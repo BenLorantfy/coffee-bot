@@ -14,7 +14,8 @@ const deviceTypes = {
 }
 
 const deviceTraits = {
-  OnOff: "action.devices.traits.OnOff"
+  OnOff: "action.devices.traits.OnOff",
+  Toggles: "action.devices.traits.Toggles",
 }
 
 const commandTypes = {
@@ -36,7 +37,8 @@ class IntentsController {
             id: deviceId,
             type: deviceTypes.COFFEE_MAKER,
             traits: [
-              deviceTraits.OnOff
+              deviceTraits.OnOff,
+              deviceTraits.Toggles,
             ],
             willReportState: false,
             name: {
@@ -49,6 +51,16 @@ class IntentsController {
               model: "K50",
               hwVersion: "1.0.0",
               swVersion: "1.0.0"
+            },
+            attributes: {
+              availableToggles: [
+                {
+                  "name": "coffee",
+                  "name_values": [
+                    {  "name_synonym": [ "coffee", "brew" ]  }
+                  ]
+                },
+              ]
             }
           }
         ]

@@ -13,10 +13,17 @@ const logger = createLogger({ projectName: 'client' });
  * 5: Brew Full Cup (Right Button)
  * 4: auto-off button
  */
+const buttons = {
+  POWER_BUTTTON: 7,
+  BREW_HALF_CUP: 6,
+  BREW_FULL_CUP: 5,
+  AUTO_OFF_BUTTON: 4,
+}
+
 const board = new five.Board();
 board.on('ready', function () {
   logger.info('Board is ready');
-  const brewButton = new five.Relay(6);
+  const brewButton = new five.Relay(buttons.POWER_BUTTTON);
   const socket = io(config.get('url'), {
     query: { token: secrets.coffee_token },
   })

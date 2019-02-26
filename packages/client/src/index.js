@@ -23,7 +23,7 @@ const buttons = {
 const board = new five.Board();
 board.on('ready', function () {
   logger.info('Board is ready');
-  const brewButton = new five.Relay(buttons.POWER_BUTTTON);
+  const powerButton = new five.Relay(buttons.POWER_BUTTTON);
   const socket = io(config.get('url'), {
     query: { token: secrets.coffee_token },
   })
@@ -31,12 +31,30 @@ board.on('ready', function () {
       logger.info('Connected to coffee server');
       listenForHeartbeat();
     })
-    .on('brew', (acknowledge) => {
-      logger.info('Recieved brew command');
-      brewButton.on();
+    .on('turnOn', (acknowledge) => {
+      logger.info('Recieved turnOn command');
+      powerButton.on();
       setTimeout(() => {
-        brewButton.off();
+        powerButton.off();
       }, 500);
+
+      acknowledge({ status: 'SUCCESS' });
+    })
+    .on('turnOff', (acknowledge) => {
+      logger.info('Recieved turnOff command');
+      powerButton.on();
+      setTimeout(() => {
+        powerButton.off();
+      }, 500);
+
+      acknowledge({ status: 'SUCCESS' });
+    })
+    .on('brew', (acknowledge) => {
+      // logger.info('Recieved brew command');
+      // powerButton.on();
+      // setTimeout(() => {
+      //   powerButton.off();
+      // }, 500);
 
       acknowledge({ status: 'SUCCESS' });
     })

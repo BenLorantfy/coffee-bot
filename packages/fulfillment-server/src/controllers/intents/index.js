@@ -75,6 +75,8 @@ class IntentsController {
         return Promise.resolve();
       }))
         .then(() => {
+          logger.info(`Execute intent succeeded`);
+
           return {
             commands: [{
               "ids": [deviceId],

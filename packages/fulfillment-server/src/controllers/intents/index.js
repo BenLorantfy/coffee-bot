@@ -64,6 +64,8 @@ class IntentsController {
     if (intent.intent === intentTypes.EXECUTE) {
       const commands = intent.payload.commands[0].execution;
       return Promise.all(commands.map((command) => {
+        logger.info(`Processing command: ${command.command}`);
+
         if (command.command === deviceTraits.OnOff) {
           if (command.params && command.params.on) {
             return CoffeeController.turnOn();

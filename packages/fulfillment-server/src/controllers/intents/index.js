@@ -65,63 +65,35 @@ class IntentsController {
       const commands = intent.payload.commands[0].execution;
       return Promise.all(commands.map((command) => {
         if (command.command === deviceTraits.OnOff) {
-          return this.processOnOffCommand(command);
+          if (command.params && command.params.on) {
+            return CoffeeController.turnOn();
+          } else {
+            return CoffeeController.turnOn();
+          }
         }
 
         return Promise.resolve();
-      }));
-    }
-  }
-
-  processBrewCommand(command) {
-    return CoffeeController.makeCoffee().then(() => {
-      logger.info('Execute intent succeeded');
-      return {
-        commands: [{
-          "ids": [deviceId],
-          "status": executionStatuses.SUCCESS,
-          "states": {
-            "on": true
+      }))
+        .then(() => {
+          return {
+            commands: [{
+              "ids": [deviceId],
+              "status": executionStatuses.SUCCESS,
+            }]
           }
-        }]
-      }
-    }).catch((err) => {
-      const errorMessage = (err && err.toString()) || "unknown";
-      logger.error(`Execute intent failed, error: ${errorMessage}`);
-      return Promise.resolve({
-        commands: [{
-          "ids": [deviceId],
-          "status": executionStatuses.ERROR,
-          "states": {
-            "on": false
-          },
-          "debugString": (errorMessage) || "",
-        }]
-      })
-    })
-  }
-
-  processOnOffCommand(command) {
-    const promise = command.params.on ? CoffeeController.turnOn() : CoffeeController.turnOff();
-    return promise.then(() => {
-      logger.info('Execute intent succeeded');
-      return {
-        commands: [{
-          ids: [deviceId],
-          status: executionStatuses.SUCCESS,
-        }]
-      }
-    }).catch((err) => {
-      const errorMessage = (err && err.toString()) || "unknown";
-      logger.error(`Execute intent failed, error: ${errorMessage}`);
-      return Promise.resolve({
-        commands: [{
-          ids: [deviceId],
-          status: executionStatuses.ERROR,
-          debugString: (errorMessage) || "",
-        }]
-      })
-    })
+        })
+        .catch((err) => {
+          const errorMessage = (err && err.toString()) || "unknown";
+          logger.error(`Execute intent failed, error: ${errorMessage}`);
+          return Promise.resolve({
+            commands: [{
+              "ids": [deviceId],
+              "status": executionStatuses.ERROR,
+              "debugString": (errorMessage) || "",
+            }]
+          })
+        })
+    }
   }
 }
 

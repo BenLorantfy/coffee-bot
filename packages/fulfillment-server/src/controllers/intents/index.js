@@ -17,6 +17,10 @@ const deviceTraits = {
   OnOff: "action.devices.traits.OnOff"
 }
 
+const commandTypes = {
+  OnOff: "action.devices.commands.OnOff"
+}
+
 const executionStatuses = {
   SUCCESS: "SUCCESS",
   ERROR: "ERROR"
@@ -66,7 +70,7 @@ class IntentsController {
       return Promise.all(commands.map((command) => {
         logger.info(`Processing command: ${command.command}`);
 
-        if (command.command === deviceTraits.OnOff) {
+        if (command.command === commandTypes.OnOff) {
           if (command.params && command.params.on) {
             return CoffeeController.turnOn();
           } else {
